@@ -1,0 +1,120 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const BookController_1 = __importDefault(require("../controller/BookController"));
+const profcontroller_1 = __importDefault(require("../controller/profcontroller"));
+const userController_1 = __importDefault(require("../controller/userController"));
+const authMiddleware_1 = __importDefault(require("../midlleware/authMiddleware"));
+const etudiantcontroller_1 = __importDefault(require("../controller/etudiantcontroller"));
+const eccontroller_1 = __importDefault(require("../controller/eccontroller"));
+const cohortecontroller_1 = __importDefault(require("../controller/cohortecontroller"));
+const moyenneSemestrecontroller_1 = __importDefault(require("../controller/moyenneSemestrecontroller"));
+const etudiantpromocontroller_1 = __importDefault(require("../controller/etudiantpromocontroller"));
+const niveaucontroller_1 = __importDefault(require("../controller/niveaucontroller"));
+//import noteController from "../controller/notecontroller";
+const promocontroller_1 = __importDefault(require("../controller/promocontroller"));
+const filierecontroller_1 = __importDefault(require("../controller/filierecontroller"));
+const departementcontroller_1 = __importDefault(require("../controller/departementcontroller"));
+const facultecontroller_1 = __importDefault(require("../controller/facultecontroller"));
+const uecontroller_1 = __importDefault(require("../controller/uecontroller"));
+const notecontroller_1 = __importDefault(require("../controller/notecontroller"));
+const moyenneuecontroller_1 = __importDefault(require("../controller/moyenneuecontroller"));
+class MobileRouting {
+    constructor(app) {
+        this.app = app;
+        this.loadPath();
+    }
+    loadPath() {
+        this.app.post('/user', userController_1.default.create);
+        this.app.get('/user/refresh_token', authMiddleware_1.default.validateUserToken, userController_1.default.refreshToken);
+        this.app.post('/user/verify_code', authMiddleware_1.default.validateUserToken, userController_1.default.verifyCode);
+        this.app.post("/book", authMiddleware_1.default.validateUserToken, BookController_1.default.create);
+        /* Requête HTTP GET http://localhost:8700/books/id */
+        this.app.get("/books/:id", BookController_1.default.getBookById);
+        /* Requête HTTP POST http://localhost:8700/books */
+        // this.app.post("/books", authMiddleware.validateUserToken, BookController.getAllBooks);
+        this.app.post("/books", BookController_1.default.getAllBooks);
+        /* Requête HTTP PUT http://localhost:8700/books/id */
+        this.app.put("/books/:id", BookController_1.default.updateBookById);
+        /* Requête HTTP DELETE http://localhost:8700/books/id */
+        this.app.delete("/books/:id", BookController_1.default.deleteBookById);
+        this.app.post("/prof", authMiddleware_1.default.validateUserToken, profcontroller_1.default.create);
+        this.app.get("/profs/:id", authMiddleware_1.default.validateUserToken, profcontroller_1.default.getProfById);
+        this.app.post("/profs", authMiddleware_1.default.validateUserToken, profcontroller_1.default.getAllProf);
+        this.app.put("/profs/:id", authMiddleware_1.default.validateUserToken, profcontroller_1.default.updateProfById);
+        this.app.delete("/profs/:id", authMiddleware_1.default.validateUserToken, profcontroller_1.default.deleteProfProfById);
+        this.app.post("/etudiant", authMiddleware_1.default.validateUserToken, etudiantcontroller_1.default.create);
+        this.app.get("/etudiants/:id", authMiddleware_1.default.validateUserToken, etudiantcontroller_1.default.getEtudiantById);
+        this.app.post("/etudiants", authMiddleware_1.default.validateUserToken, etudiantcontroller_1.default.getAllEtudiants);
+        this.app.put("/etudiants/:id", authMiddleware_1.default.validateUserToken, etudiantcontroller_1.default.updateEtudiantById);
+        this.app.delete("/etudiants/:id", authMiddleware_1.default.validateUserToken, etudiantcontroller_1.default.deleteEtudiantById);
+        this.app.post("/ec", authMiddleware_1.default.validateUserToken, eccontroller_1.default.create);
+        this.app.get("/ecs/:id", authMiddleware_1.default.validateUserToken, eccontroller_1.default.getEcById);
+        this.app.post("/ecs", authMiddleware_1.default.validateUserToken, eccontroller_1.default.getAllEc);
+        this.app.put("/ecs/:id", authMiddleware_1.default.validateUserToken, eccontroller_1.default.updateEcById);
+        this.app.delete("/ecs/:id", authMiddleware_1.default.validateUserToken, eccontroller_1.default.deleteEcById);
+        this.app.post("/cohorte", authMiddleware_1.default.validateUserToken, cohortecontroller_1.default.create);
+        this.app.get("/cohortes/:id", authMiddleware_1.default.validateUserToken, cohortecontroller_1.default.getCohorteById);
+        this.app.post("/cohortes", authMiddleware_1.default.validateUserToken, cohortecontroller_1.default.getAllCohorte);
+        this.app.put("/cohortes/:id", authMiddleware_1.default.validateUserToken, cohortecontroller_1.default.updateCohorteById);
+        this.app.delete("/cohortes/:id", authMiddleware_1.default.validateUserToken, cohortecontroller_1.default.deleteCohorteById);
+        this.app.post("/moyenneSemeste", authMiddleware_1.default.validateUserToken, moyenneSemestrecontroller_1.default.create);
+        this.app.get("/moyenneSemestres/:id", authMiddleware_1.default.validateUserToken, moyenneSemestrecontroller_1.default.getMoyenneSemestreById);
+        this.app.post("/moyenneSemestres", authMiddleware_1.default.validateUserToken, moyenneSemestrecontroller_1.default.getAllMoyenneSemestre);
+        this.app.put("/moyenneSemestres/:id", authMiddleware_1.default.validateUserToken, moyenneSemestrecontroller_1.default.updateMoyenneSemestreById);
+        this.app.delete("/moyenneSemestres/:id", authMiddleware_1.default.validateUserToken, moyenneSemestrecontroller_1.default.deleteMoyenneSemestreById);
+        this.app.post("/etudiantpromo", authMiddleware_1.default.validateUserToken, etudiantpromocontroller_1.default.create);
+        this.app.get("/etudiantpromos/:id", authMiddleware_1.default.validateUserToken, etudiantpromocontroller_1.default.getEtudiantpromoById);
+        this.app.post("/etudiantpromos", authMiddleware_1.default.validateUserToken, etudiantpromocontroller_1.default.getAllEtudiantpromo);
+        this.app.put("/etudiantpromos/:id", authMiddleware_1.default.validateUserToken, etudiantpromocontroller_1.default.updateEtudiantpromoById);
+        this.app.delete("/etudiantpromos/:id", authMiddleware_1.default.validateUserToken, etudiantpromocontroller_1.default.deleteEtudiantpromoById);
+        this.app.post("/niveau", authMiddleware_1.default.validateUserToken, niveaucontroller_1.default.create);
+        this.app.get("/niveaux/:id", authMiddleware_1.default.validateUserToken, niveaucontroller_1.default.getNiveauById);
+        this.app.post("/niveaux", authMiddleware_1.default.validateUserToken, niveaucontroller_1.default.getAllNiveau);
+        this.app.put("/niveaux/:id", authMiddleware_1.default.validateUserToken, niveaucontroller_1.default.updateNiveauById);
+        this.app.delete("/niveaux/:id", authMiddleware_1.default.validateUserToken, niveaucontroller_1.default.deleteNiveauById);
+        this.app.post("/note", authMiddleware_1.default.validateUserToken, notecontroller_1.default.create);
+        this.app.get("/notes/:id", authMiddleware_1.default.validateUserToken, notecontroller_1.default.getNoteById);
+        this.app.post("/notes", authMiddleware_1.default.validateUserToken, notecontroller_1.default.getAllNote);
+        this.app.put("/notes/:id", authMiddleware_1.default.validateUserToken, notecontroller_1.default.updateNoteById);
+        this.app.delete("/notes/:id", authMiddleware_1.default.validateUserToken, notecontroller_1.default.deleteNoteById);
+        this.app.post("/promo", authMiddleware_1.default.validateUserToken, promocontroller_1.default.create);
+        this.app.get("/promos/:id", authMiddleware_1.default.validateUserToken, promocontroller_1.default.getPromoById);
+        this.app.post("/promos", authMiddleware_1.default.validateUserToken, promocontroller_1.default.getAllPromo);
+        this.app.put("/promos/:id", authMiddleware_1.default.validateUserToken, promocontroller_1.default.updatePromoById);
+        this.app.delete("/promos/:id", authMiddleware_1.default.validateUserToken, promocontroller_1.default.deletePromoById);
+        this.app.post("/filiere", authMiddleware_1.default.validateUserToken, filierecontroller_1.default.create);
+        this.app.get("/filieres/:id", authMiddleware_1.default.validateUserToken, filierecontroller_1.default.getFiliereById);
+        this.app.post("/filieres", authMiddleware_1.default.validateUserToken, filierecontroller_1.default.getAllFiliere);
+        this.app.put("/filieres/:id", authMiddleware_1.default.validateUserToken, filierecontroller_1.default.updateFiliereById);
+        this.app.delete("/filieres/:id", authMiddleware_1.default.validateUserToken, filierecontroller_1.default.deleteFiliereById);
+        this.app.post("/departement", authMiddleware_1.default.validateUserToken, departementcontroller_1.default.create);
+        this.app.get("/departements/:id", authMiddleware_1.default.validateUserToken, departementcontroller_1.default.getDepartementById);
+        this.app.post("/departements", authMiddleware_1.default.validateUserToken, departementcontroller_1.default.getAllDepartement);
+        this.app.put("/departements/:id", authMiddleware_1.default.validateUserToken, departementcontroller_1.default.updateDepartementById);
+        this.app.delete("/departements/:id", authMiddleware_1.default.validateUserToken, departementcontroller_1.default.deleteDepartementById);
+        this.app.post("/faculte", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.create);
+        this.app.get("/facultes/:id", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.getFaculteById);
+        this.app.post("/facultes", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.getAllFaculte);
+        this.app.put("/facultes/:id", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.updateFaculteById);
+        this.app.delete("/facultes/:id", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.deleteFaculteById);
+        this.app.post("/ue", authMiddleware_1.default.validateUserToken, uecontroller_1.default.create);
+        this.app.get("/ue/:id", authMiddleware_1.default.validateUserToken, uecontroller_1.default.getUeById);
+        this.app.post("/ues", authMiddleware_1.default.validateUserToken, uecontroller_1.default.getAllUe);
+        this.app.put("/ues/:id", authMiddleware_1.default.validateUserToken, uecontroller_1.default.updateUeById);
+        this.app.delete("/ues/:id", authMiddleware_1.default.validateUserToken, uecontroller_1.default.deleteUeById);
+        this.app.post("/moyenneue", authMiddleware_1.default.validateUserToken, moyenneuecontroller_1.default.create);
+        this.app.get("/moyenneue/:id", authMiddleware_1.default.validateUserToken, moyenneuecontroller_1.default.getMoyenneueById);
+        this.app.post("/moyenneue", authMiddleware_1.default.validateUserToken, moyenneuecontroller_1.default.getAllMoyenneue);
+        this.app.put("/moyenneue/:id", authMiddleware_1.default.validateUserToken, moyenneuecontroller_1.default.updateMoyenneueById);
+        this.app.delete("/moyenneue/:id", authMiddleware_1.default.validateUserToken, moyenneuecontroller_1.default.deleteMoyenneueById);
+        this.app.post("/faculte", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.create);
+        this.app.get("/faculte/:id", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.getFaculteById);
+        this.app.post("/faculte", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.getAllFaculte);
+        this.app.put("/faculte/:id", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.updateFaculteById);
+        this.app.delete("/faculte", authMiddleware_1.default.validateUserToken, facultecontroller_1.default.deleteFaculteById);
+    }
+}
+exports.default = MobileRouting;
